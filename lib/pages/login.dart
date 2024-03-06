@@ -18,12 +18,13 @@ class _LogInState extends State<LogIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  userLogin() async {
+  userLogin(String mail, String pass) async {
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+          .signInWithEmailAndPassword(email: mail, password: pass);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => BottomNav()));
+      print(email.toString());
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -168,8 +169,8 @@ class _LogInState extends State<LogIn> {
                                       email = emailController.text;
                                       password = passwordController.text;
                                     });
+                                    userLogin(email, password);
                                   }
-                                  userLogin();
                                 },
                                 child: Material(
                                   borderRadius: BorderRadius.circular(20),
